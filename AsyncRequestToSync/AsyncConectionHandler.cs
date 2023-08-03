@@ -7,6 +7,7 @@ namespace AsyncRequestToSync
 {
     public class AsyncConectionHandler
     {
+        private const int DEFAULT_REQUEST_TIMEOUT_MS = 25000;
         private readonly ConcurrentDictionary<Guid, InternalConnectionDetail> _connectionPool;
 
         public int PoolLenght => _connectionPool.Count;
@@ -23,8 +24,10 @@ namespace AsyncRequestToSync
                 return Task.CompletedTask; // Aborted
 
             var tcs = new TaskCompletionSource();
-            if (!_connectionPool.TryAdd(correlationId, new InternalConnectionDetail(tcs, context)))
+            var timer = new Timer(TimeoutCallback, correlationId, DEFAULT_REQUEST_TIMEOUT_MS, Timeout.Infinite);
+            if (!_connectionPool.TryAdd(correlationId, new InternalConnectionDetail(tcs, context, timer)))
             {
+                timer.Dispose();
                 return Task.CompletedTask;
             }
             return tcs.Task;
@@ -39,6 +42,16 @@ namespace AsyncRequestToSync
             connection.TCS.TrySetResult();
         }
 
+        public async void TimeoutCallback(object? state)
+        {
+            var correlationId = (state as Guid?) ?? throw new ArgumentException(nameof(state), $"Given {state} is not valid");
+            if (!_connectionPool.TryRemove(correlationId, out var connection))
+                return;
+            connection.Timeout?.Dispose();
+            await WriteReponse(connection.Context, new RequestAcceptedResponse(correlationId), 202, connection.Context.RequestAborted);
+            connection.TCS.TrySetResult();
+        }
+
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private Task WriteReponse(HttpContext context, object message, int statusCode, CancellationToken cancellationToken)
@@ -49,5 +62,5 @@ namespace AsyncRequestToSync
 
     }
 
-    internal record InternalConnectionDetail(TaskCompletionSource TCS, HttpContext Context);
+    internal record InternalConnectionDetail(TaskCompletionSource TCS, HttpContext Context, Timer Timeout);
 }
