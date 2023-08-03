@@ -5,16 +5,19 @@ using System.Runtime.CompilerServices;
 
 namespace AsyncRequestToSync
 {
-    public class AsyncConectionHandler
+    public class AsyncConectionHandler : IAsyncConectionHandler
     {
         private const int DEFAULT_REQUEST_TIMEOUT_MS = 25000;
+
         private readonly ConcurrentDictionary<Guid, InternalConnectionDetail> _connectionPool;
+        private readonly int _requestTimeoutInMS;
 
         public int PoolLenght => _connectionPool.Count;
 
-        public AsyncConectionHandler()
+        public AsyncConectionHandler(int requestTimeoutInMS = DEFAULT_REQUEST_TIMEOUT_MS)
         {
             _connectionPool = new ConcurrentDictionary<Guid, InternalConnectionDetail>();
+            _requestTimeoutInMS = requestTimeoutInMS;
         }
 
         public Task WaitForResponse(HttpContext context, Guid correlationId)
@@ -24,7 +27,8 @@ namespace AsyncRequestToSync
                 return Task.CompletedTask; // Aborted
 
             var tcs = new TaskCompletionSource();
-            var timer = new Timer(TimeoutCallback, correlationId, DEFAULT_REQUEST_TIMEOUT_MS, Timeout.Infinite);
+            var timer = new Timer(TimeoutCallback, correlationId, _requestTimeoutInMS, Timeout.Infinite);
+            // TODO: consider the situation event recieved earlier than request
             if (!_connectionPool.TryAdd(correlationId, new InternalConnectionDetail(tcs, context, timer)))
             {
                 timer.Dispose();
