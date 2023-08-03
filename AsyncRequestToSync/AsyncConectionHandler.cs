@@ -30,6 +30,7 @@ namespace AsyncRequestToSync
                 timer.Dispose();
                 return Task.CompletedTask;
             }
+            requestAborted.Register(RequestAbortedCallback, correlationId);
             return tcs.Task;
         }
 
@@ -52,6 +53,14 @@ namespace AsyncRequestToSync
             connection.TCS.TrySetResult();
         }
 
+        public void RequestAbortedCallback(object? state)
+        {
+            var correlationId = (state as Guid?) ?? throw new ArgumentException(nameof(state), $"Given {state} is not valid");
+            if (!_connectionPool.TryRemove(correlationId, out var connection))
+                return;
+            connection.Timeout?.Dispose();
+            connection.TCS?.TrySetResult();
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private Task WriteReponse(HttpContext context, object message, int statusCode, CancellationToken cancellationToken)
