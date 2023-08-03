@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34031.279
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AsyncRequestToSync", "AsyncRequestToSync\AsyncRequestToSync.csproj", "{C6C1B266-B03C-46D9-9E7E-76C4A0020D14}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AsyncRequestToSync.Tests", "AsyncRequestToSync.Tests\AsyncRequestToSync.Tests.csproj", "{54F343CB-125E-4B7D-8858-B8066D57754D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C6C1B266-B03C-46D9-9E7E-76C4A0020D14}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C6C1B266-B03C-46D9-9E7E-76C4A0020D14}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C6C1B266-B03C-46D9-9E7E-76C4A0020D14}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C6C1B266-B03C-46D9-9E7E-76C4A0020D14}.Release|Any CPU.Build.0 = Release|Any CPU
+		{54F343CB-125E-4B7D-8858-B8066D57754D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{54F343CB-125E-4B7D-8858-B8066D57754D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{54F343CB-125E-4B7D-8858-B8066D57754D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{54F343CB-125E-4B7D-8858-B8066D57754D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F74E4711-CE92-4F0B-BB1C-E9B5D2EE3C9D}
+	EndGlobalSection
+EndGlobal
