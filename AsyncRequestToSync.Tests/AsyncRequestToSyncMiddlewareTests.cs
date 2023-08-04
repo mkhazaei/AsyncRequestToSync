@@ -14,7 +14,7 @@ namespace AsyncRequestToSync.Tests
         [Fact]
         public async Task WhenRequestReturn200()
         {
-            var connectionHandler = new Mock<IAsyncConectionHandler>();
+            var connectionHandler = new Mock<IAsyncConnectionHandler>();
             var middleware = new AsyncRequestToSyncMiddleware(_ => Task.CompletedTask);
             var request = Request(200);
 
@@ -26,7 +26,7 @@ namespace AsyncRequestToSync.Tests
         [Fact]
         public async Task WhenRequestReturn202()
         {
-            var connectionHandler = new Mock<IAsyncConectionHandler>();
+            var connectionHandler = new Mock<IAsyncConnectionHandler>();
             var middleware = new AsyncRequestToSyncMiddleware(_ => Task.CompletedTask);
             var request = Request(202);
 
@@ -38,7 +38,7 @@ namespace AsyncRequestToSync.Tests
         [Fact]
         public async Task WhereCorrelationIdIsNotExist()
         {
-            var connectionHandler = new Mock<IAsyncConectionHandler>();
+            var connectionHandler = new Mock<IAsyncConnectionHandler>();
             var middleware = new AsyncRequestToSyncMiddleware(_ => Task.CompletedTask);
             var request = Request(202);
             request.HttpContext.Response.Headers.Remove("CorrelationId");

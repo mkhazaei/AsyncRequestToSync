@@ -9,7 +9,7 @@ namespace AsyncRequestToSync
 
         public AsyncRequestToSyncMiddleware(RequestDelegate next) => _next = next;
 
-        public async Task InvokeAsync(HttpContext context, IAsyncConectionHandler connectionHandler)
+        public async Task InvokeAsync(HttpContext context, IAsyncConnectionHandler connectionHandler)
         {
             await _next(context);
 

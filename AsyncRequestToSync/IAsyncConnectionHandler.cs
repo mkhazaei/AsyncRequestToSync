@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace AsyncRequestToSync
 {
-    public interface IAsyncConectionHandler
+    public interface IAsyncConnectionHandler
     {
         /// <summary>
         /// 

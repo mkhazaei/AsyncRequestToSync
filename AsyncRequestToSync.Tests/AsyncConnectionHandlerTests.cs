@@ -14,7 +14,7 @@ namespace AsyncRequestToSync.Tests
         [Fact]
         public async Task WhenThereIsNoResponse()
         {
-            var connectionHandler = new AsyncConectionHandler(2000);
+            var connectionHandler = new AsyncConnectionHandler(2000);
             var request = Request();
 
             var watch = Stopwatch.StartNew();
@@ -31,7 +31,7 @@ namespace AsyncRequestToSync.Tests
         [Fact]
         public async Task WhenThereIsAResponse()
         {
-            var connectionHandler = new AsyncConectionHandler(4000);
+            var connectionHandler = new AsyncConnectionHandler(4000);
             var request = Request();
 
             var watch = Stopwatch.StartNew();
@@ -50,7 +50,7 @@ namespace AsyncRequestToSync.Tests
         [Fact]
         public async Task WhenResponseReceivedSooner()
         {
-            var connectionHandler = new AsyncConectionHandler(4000);
+            var connectionHandler = new AsyncConnectionHandler(4000);
             var request = Request();
 
             var watch = Stopwatch.StartNew();
@@ -70,7 +70,7 @@ namespace AsyncRequestToSync.Tests
         [Fact]
         public async Task WhenMoreThanOneResponseReceivedSooner()
         {
-            var connectionHandler = new AsyncConectionHandler(4000);
+            var connectionHandler = new AsyncConnectionHandler(4000);
             var request = Request();
 
             var watch = Stopwatch.StartNew();
@@ -93,7 +93,7 @@ namespace AsyncRequestToSync.Tests
         [Fact]
         public async Task WhenThereAreMoreThanOneResponse()
         {
-            var connectionHandler = new AsyncConectionHandler(2000);
+            var connectionHandler = new AsyncConnectionHandler(2000);
             var request = Request();
 
             var watch = Stopwatch.StartNew();
@@ -117,7 +117,7 @@ namespace AsyncRequestToSync.Tests
         [Fact]
         public async Task WhereThereIsMoreThanOneRequest()
         {
-            var connectionHandler = new AsyncConectionHandler(2000);
+            var connectionHandler = new AsyncConnectionHandler(2000);
             var request1 = Request();
             var request2 = Request();
             var request3 = Request();

@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 
 namespace AsyncRequestToSync
 {
-    public class AsyncConnectionHandler : IAsyncConectionHandler
+    public class AsyncConnectionHandler : IAsyncConnectionHandler
     {
         private const int DEFAULT_REQUEST_TIMEOUT_MS = 25000;
 
@@ -94,7 +94,7 @@ namespace AsyncRequestToSync
             if (context.Response.HasStarted) 
                 return Task.CompletedTask; // Need response buffering of requests (Performance!)
             context.Response.StatusCode = statusCode;
-            context.Response.ContentLength = null; // Kestrel Writer Stream doesn't support Body.Length (writing to the network as fast as possible) + JsonSerializer.SerializeAsync(Stream ...) doesn't accumulate serialized object length
+            context.Response.ContentLength = null; // Kestrel Writer Stream write to the network as fast as possible and content length is not available
             return context.Response.WriteAsJsonAsync(message, message.GetType(), cancellationToken); // Use IOption<JsonOptions>
         }
 
