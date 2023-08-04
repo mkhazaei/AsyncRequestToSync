@@ -9,17 +9,18 @@ namespace AsyncRequestToSync
 
         public AsyncRequestToSyncMiddleware(RequestDelegate next) => _next = next;
 
-        public async Task InvokeAsync(HttpContext context, IAsyncConectionHandler conectionHandler)
+        public async Task InvokeAsync(HttpContext context, IAsyncConectionHandler connectionHandler)
         {
             await _next(context);
 
-            // Hnadle only 202 responses
-            if (context.Response.StatusCode != 202)
+            // Handle only 202 responses and ignore request that Response Has Started (you are not allowed to change)
+            if (context.Response.StatusCode != 202 || context.Response.HasStarted)
                 return;
+            // get CorrelationId from header
             if (!context.Response.Headers.TryGetValue("CorrelationId", out var correlationIdValues))
                 return;
             var correlationId = new Guid(correlationIdValues.First());
-            await conectionHandler.WaitForResponse(context, correlationId);
+            await connectionHandler.WaitForResponse(context, correlationId);
         }
     }
 }
