@@ -37,7 +37,7 @@ namespace AsyncRequestToSync
                 timer.Dispose();
                 connection.Timeout?.Dispose();
                 _connectionPool.TryRemove(correlationId, out _); // clear pool.
-                return WriteResponse(context, connection.response, 200, requestAborted);
+                return WriteResponse(context, connection.response, StatusCodes.Status200OK, requestAborted);
             }
             requestAborted.Register(RequestAbortedCallback, correlationId);
             return tcs.Task;
@@ -63,7 +63,7 @@ namespace AsyncRequestToSync
             connection.Timeout?.Dispose();
             if (connection.Context == null || connection.TCS == null)
                 return;
-            await WriteResponse(connection.Context!, message, 200, cancellationToken);
+            await WriteResponse(connection.Context!, message, StatusCodes.Status200OK, cancellationToken);
             connection.TCS.TrySetResult();
         }
 
@@ -75,7 +75,7 @@ namespace AsyncRequestToSync
             connection.Timeout?.Dispose();
             if (connection.Context == null || connection.TCS == null)
                 return;
-            await WriteResponse(connection.Context, new RequestAcceptedResponse(correlationId), 202, connection.Context.RequestAborted);
+            await WriteResponse(connection.Context, new RequestAcceptedResponse(correlationId), StatusCodes.Status202Accepted, connection.Context.RequestAborted);
             connection.TCS.TrySetResult();
         }
 

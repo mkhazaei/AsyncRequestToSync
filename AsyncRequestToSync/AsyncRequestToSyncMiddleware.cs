@@ -14,7 +14,7 @@ namespace AsyncRequestToSync
             await _next(context);
 
             // Handle only 202 responses and ignore request that Response Has Started (you are not allowed to change)
-            if (context.Response.StatusCode != 202 || context.Response.HasStarted)
+            if (context.Response.StatusCode != StatusCodes.Status202Accepted || context.Response.HasStarted)
                 return;
             // get CorrelationId from header
             if (!context.Response.Headers.TryGetValue("CorrelationId", out var correlationIdValues))
