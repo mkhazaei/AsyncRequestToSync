@@ -29,13 +29,15 @@ app.MapPost("/SampleEndpoint", async (HttpContext httpContext) =>
 });
 ```
 
-Also, you can use it in YARP:
+Also, you can use it in ``YARP``:
 ```C#
 app.MapReverseProxy(proxyPipeline =>
 {
     proxyPipeline.UseMiddleware<AsyncRequestToSyncMiddleware>();
 });
 ```
+
+With some minor changes, you can use this module as a middleware in ``Azure Functions`` isolated worker.
 
 ## Discussion
 Asynchronous requests and eventual consistency are common challenges between Front and Back teams.
