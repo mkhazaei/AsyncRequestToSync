@@ -4,6 +4,8 @@ A service to transform async requests to sync HTTP requests.
 It works as a middleware and tracks HTTP requests for the 202 status code. 
 Then, read CorrelationId from the response header and hold the client request until gets a response asynchronously (or a configured timeout).
 
+![Diagram](docs/images/diagram.jpg)
+
 **Note:** You should not return any body with 202 status code.
 
 ## How to use
