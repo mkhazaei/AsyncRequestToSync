@@ -40,8 +40,6 @@ app.MapReverseProxy(proxyPipeline =>
 With some minor changes, you can use this module as a middleware in ``Azure Functions`` isolated worker (but it is not a good practice!).
 
 ## Discussion
-Sometimes 
-
 Front-end teams usually favor synchronous requests and getting the result of their mutation requests immediately.
 However, In some systems, it is not always easy to prepare a synchronous answer for mutation requests, especially when the server needs to do some distributed process.
 (For example in Distributed Transactions, Event-sourcing, Event-Driven systems, ...).
